@@ -4,13 +4,11 @@ const pool = require("../db");
 
 const router = express.Router();
 
-/* GET all candidates */
 router.get("/", async (req, res) => {
   const result = await pool.query("SELECT * FROM candidates ORDER BY id DESC");
   res.json(result.rows);
 });
 
-/* GET candidate by ID */
 router.get("/:id", param("id").isInt(), async (req, res) => {
   const { id } = req.params;
   const result = await pool.query("SELECT * FROM candidates WHERE id=$1", [id]);
@@ -59,7 +57,6 @@ router.post(
   },
 );
 
-/* UPDATE candidate */
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -87,7 +84,6 @@ router.put("/:id", async (req, res) => {
   res.json(result.rows[0]);
 });
 
-/* DELETE candidate */
 router.delete("/:id", async (req, res) => {
   const result = await pool.query(
     "DELETE FROM candidates WHERE id=$1 RETURNING *",
